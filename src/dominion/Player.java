@@ -1,6 +1,8 @@
 package dominion;
 import java.util.*;
 import dominion.card.*;
+import dominion.card.common.Copper;
+import dominion.card.common.Estate;
 
 /**
  * Un joueur de Dominion
@@ -10,47 +12,49 @@ public class Player {
 	 * Nom du joueur
 	 */
 	private String name;
-	
+
 	/**
 	 * Nombre d'actions disponibles
 	 */
 	private int actions;
-	
+
 	/**
 	 * Nombre de pièces disponibles pour acheter des cartes
 	 */
 	private int money;
-	
+
 	/**
 	 * Nombre d'achats disponibles
 	 */
 	private int buys;
-	
+
 	/**
 	 * Référence vers la partie en cours
 	 */
 	private Game game;
-	
+
 	/**
 	 * Liste des cartes dans la main du joueur
 	 */
 	private CardList hand;
-	
+
 	/**
 	 * Liste des cartes dans la défausse du joueur
 	 */
 	private CardList discard;
-	
+
 	/**
 	 * Liste des cartes dans la pioche du joueur
 	 */
 	private CardList draw;
-	
+
 	/**
 	 * Listes des cartes qui ont été jouées pendant le tour courant
 	 */
 	private CardList inPlay;
-	
+
+
+
 	/**
 	 * Constructeur
 	 * 
@@ -65,26 +69,56 @@ public class Player {
 	 * préparer la main du joueur après avoir placé les cartes dans la défausse.
 	 */
 	public Player(String name, Game game) {
+		// initialisations
+		this.name = name;
+		this.game = game;
+		
+		this.hand = new CardList();
+		this.discard = new CardList();
+		this.draw = new CardList();
+		this.inPlay = new CardList();
+		
+		
+		// Deck de départ : +7 cartes copper
+		for(int i=0; i<7; i++) {
+			this.discard.add(new Copper()); 
+		}
+		
+		// Deck de départ : +3 cartes Estate
+		for(int i=0;i<3; i++) {
+			this.discard.add(new Estate());
+		}
+		
+		// mélange du deck 
+		this.discard.shuffle();
+		
+		// initialisation des compteurs - pioche de la première main de 5 cartes
+		this.endTurn();
 	}
 
 	/**
 	 * Getters et setters
 	 */
 	public String getName() {
+		return this.name;
 	}
-	
+
 	public int getActions() {
+		return this.actions;
 	}
-	
+
 	public int getMoney() {
+		return this.money;
 	}
-	
+
 	public int getBuys() {
+		return this.buys;
 	}
-	
+
 	public Game getGame() {
+		return this.game;
 	}
-	
+
 	/**
 	 * Incrémente le nombre d'actions du joueur
 	 * 
@@ -92,8 +126,9 @@ public class Player {
 	 * souhaite diminuer le nombre d'actions)
 	 */
 	public void incrementActions(int n) {
+		this.actions += n;
 	}
-	
+
 	/**
 	 * Incrémente le nombre de pièces du joueur
 	 * 
@@ -101,8 +136,9 @@ public class Player {
 	 * souhaite diminuer le nombre de pièces)
 	 */
 	public void incrementMoney(int n) {
+		this.money += n;
 	}
-	
+
 	/**
 	 * Incrémente le nombre d'achats disponibles du joueur
 	 * 
@@ -110,6 +146,7 @@ public class Player {
 	 * souhaite diminuer le nombre d'achats)
 	 */
 	public void incrementBuys(int n) {
+		this.buys += n;
 	}
 
 	/**
@@ -118,16 +155,23 @@ public class Player {
 	 * éléments sont les mêmes que ceux de {@code this.hand}.
 	 */
 	public CardList cardsInHand() {
+		return new CardList(this.hand);
 	}
-	
+
 	/**
 	 * Renvoie une liste de toutes les cartes possédées par le joueur
 	 * (le deck complet c'est-à-dire toutes les cartes dans la main, la
 	 * défausse, la pioche et en jeu)
 	 */
 	public CardList totalCards() {
+		CardList total = new CardList();
+		total.addAll(this.hand);
+		total.addAll(this.discard);
+		total.addAll(this.draw);
+		total.addAll(this.inPlay);
+		return total;		
 	}
-	
+
 	/**
 	 * Renvoie le nombre total de points de victoire du joueur
 	 * 
@@ -136,8 +180,15 @@ public class Player {
 	 * {@code victoryValue()}) des cartes
 	 */
 	public int victoryPoints() {
+		int vPoints = 0;
+		for(Card card : this.totalCards()) {
+			if(card instanceof VictoryCard) {
+				vPoints += ((VictoryCard)card).victoryValue(this);
+			}
+		}
+		return vPoints;
 	}
-	
+
 	/**
 	 * Renvoie une liste des autres joueurs de la partie.
 	 * 
@@ -150,8 +201,9 @@ public class Player {
 	 * de la classe {@code Game}.
 	 */
 	public List<Player> otherPlayers() {
+		return this.game.otherPlayers(this);
 	}
-	
+
 	/**
 	 * Pioche une carte dans la pioche du joueur.
 	 * 
@@ -162,9 +214,34 @@ public class Player {
 	 * 
 	 * @return la carte piochée, {@code null} si aucune carte disponible
 	 */
+	// TODO : index 0 est la première carte de la liste ?
 	public Card drawCard() {
+		if (this.draw.size() == 0) {
+			// La pioche est vide
+
+			// mélange de la défausse
+			this.discard.shuffle();
+
+			// ajout de la défausse à la pioche
+			this.draw.addAll(this.discard);
+
+			// suppression de la défausse
+			this.discard.clear();
+		}
+		// on tire la première carte de la pioche
+		Card carte = this.draw.get(0);
+
+		// si la pioche n'est pas vide
+		if(carte != null) {
+			// on supprime la carte tirée de la pioche
+			this.draw.remove(0);
+			return carte;
+		}else {
+			return null;
+		}
+		
 	}
-	
+
 	/**
 	 * Renvoie une représentation de l'état du joueur sous forme d'une chaîne
 	 * de caractères.
@@ -183,25 +260,46 @@ public class Player {
 		r += String.format("Hand: %s\n", this.hand.toString());
 		return r;
 	}
-	
+
 	/**
 	 * Renvoie la liste de toutes les cartes Trésor dans la main du joueur
 	 */
 	public CardList getTreasureCards() {
+		CardList trCards = new CardList();
+		for(Card card : this.hand) {
+			if (card instanceof TreasureCard) {
+				trCards.add(card);
+			}
+		}
+		return trCards;
 	}
-	
+
 	/**
 	 * Renvoie la liste de toutes les cartes Action dans la main du joueur
 	 */
 	public CardList getActionCards() {
+		CardList actCards = new CardList();
+		for(Card card : this.hand) {
+			if (card instanceof ActionCard) {
+				actCards.add(card);
+			}
+		}
+		return actCards;
 	}
-	
+
 	/**
 	 * Renvoie la liste de toutes les cartes Victoire dans la main du joueur
 	 */
 	public CardList getVictoryCards() {
+		CardList victCards = new CardList();
+		for(Card card : this.hand) {
+			if (card instanceof VictoryCard) {
+				victCards.add(card);
+			}
+		}
+		return victCards;
 	}
-	
+
 	/**
 	 * Joue une carte de la main du joueur.
 	 * 
@@ -213,8 +311,17 @@ public class Player {
 	 * {@code inPlay} et exécute la méthode {@code play(Player p)} de la carte.
 	 */
 	public void playCard(Card c) {
+
+		// on enlève la carte de la main
+		this.hand.remove(c);
+
+		// on l'ajoute au jeu
+		this.inPlay.add(c);
+
+		// on la joue
+		c.play(this);
 	}
-	
+
 	/**
 	 * Joue une carte de la main du joueur.
 	 * 
@@ -226,8 +333,12 @@ public class Player {
 	 * fait rien.
 	 */
 	public void playCard(String cardName) {
+		Card carte = this.hand.getCard(cardName);
+		if (carte !=  null) {
+			this.playCard(carte);
+		}
 	}
-	
+
 	/**
 	 * Le joueur gagne une carte.
 	 * 
@@ -238,8 +349,11 @@ public class Player {
 	 * emplacement précédent au préalable.
 	 */
 	public void gain(Card c) {
+		if( c != null) {
+			this.discard.add(c);
+		}
 	}
-	
+
 	/**
 	 * Le joueur gagne une carte de la réserve
 	 * 
@@ -250,8 +364,24 @@ public class Player {
 	 * null} si aucune carte n'a été prise dans la réserve.
 	 */
 	public Card gain(String cardName) {
+		Card carte = this.game.getFromSupply(cardName);
+
+		if (carte != null) {
+			// La carte existe dans la réserve
+
+			// on la retire de la réserve
+			this.game.removeFromSupply(cardName);
+
+			// on l'ajoute à la défausse
+			this.discard.add(carte);
+
+			return carte;
+		}else {
+			// la carte n'existe pas en réserve
+			return null;
+		}
 	}
-	
+
 	/**
 	 * Le joueur achète une carte de la réserve
 	 * 
@@ -267,14 +397,32 @@ public class Player {
 	 * lieu
 	 */
 	public Card buyCard(String cardName) {
+		Card carte = this.game.getFromSupply(cardName);
+		if(carte != null && this.buys > 0 && this.money >= carte.getCost() ) {
+			// on peut acheter la carte
+
+			// on la retire de la réserve
+			this.game.removeFromSupply(cardName);
+			
+			// on fait l'achat
+			this.money -= carte.getCost();
+			this.buys--;
+			this.gain(carte);
+			
+			return carte;
+		}else{
+			// l'achat n'est pas possible
+			return null;
+		}
 	}
-	
+
 	/**
 	 * Attend une entrée de la part du joueur (au clavier) et renvoie le choix
 	 *  du joueur.
 	 * 
 	 * @param instruction message à afficher à l'écran pour indiquer au joueur
 	 * la nature du choix qui est attendu
+	 * 
 	 * @param choices une liste de chaînes de caractères correspondant aux
 	 * choix valides attendus du joueur (la liste sera convertie en ensemble 
 	 * par la fonction pour éliminer les doublons, ce qui permet de compter 
@@ -341,7 +489,7 @@ public class Player {
 			}
 		}
 	}
-	
+
 	/**
 	 * Attend une entrée de la part du joueur et renvoie le choix du joueur.
 	 * Dans cette méthode, la liste des choix est donnée sous la forme d'une 
@@ -384,15 +532,17 @@ public class Player {
 		// appel de la méthode précédente en passant l'ensemble de noms
 		return this.choose(instruction, stringChoices, canPass);
 	}
-	
+
 	/**
 	 * Démarre le tour du joueur
 	 * 
 	 * Les compteurs d'actions et achats sont mis à 1
 	 */
 	public void startTurn() {
+		this.actions = 1;
+		this.buys = 1;
 	}
-	
+
 	/**
 	 * Termine le tour du joueur
 	 * 
@@ -401,8 +551,22 @@ public class Player {
 	 * - Le joueur pioche 5 cartes en main
 	 */
 	public void endTurn() {
+		this.actions = 0;
+		this.buys = 0;
+		this.money = 0;
+		
+		this.discard.addAll(this.hand);
+		this.discard.addAll(this.inPlay);
+		
+		this.inPlay.clear();
+		this.hand.clear();
+		
+		for(int i=0; i<5; i++) {
+			this.hand.add(this.drawCard());
+		}
+		
 	}
-	
+
 	/**
 	 * Exécute le tour d'un joueur
 	 * 
@@ -431,5 +595,58 @@ public class Player {
 	 * du joueur
 	 */
 	public void playTurn() {
+		
+		this.startTurn();
+		
+		// 1. Actions. 
+		// tant qu'il y a des actions disponibles
+		while( this.actions > 0) {
+						
+			// demande du choix d'une carte action en main
+			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", this.getActionCards(), true);
+			
+			if(!carteChoisie.equals("") ) {
+				// on joue la carte action choisie
+				this.hand.getCard(carteChoisie).play(this);
+				
+				// décrément compteur actions
+				this.actions--;
+			}else {
+				// le joueur ne fait pas d'action- on continue le tour
+				this.actions = 0;
+			}
+			
+		}
+		
+		// 2. Achat
+		// On joue toutes les cartes trésor en main
+		for(Card carte : this.getTreasureCards()) {
+			carte.play(this);
+		}
+		
+		// On propose des achats au joueur
+		while(this.buys > 0) {
+		
+			// On propose uniquement les cartes que le joueur peut acheter avec l'argent dont il dispose
+			CardList cartesAchetables = new CardList();
+			for(Card carte : this.game.availableSupplyCards()) {
+				if(carte.getCost() <= this.money) {
+					cartesAchetables.add(carte);
+				}
+			}
+			String carteChoisie = this.chooseCard("Quelle carte voulez-vous acheter ? ", cartesAchetables, true);
+			if(!carteChoisie.equals("")) {
+				// On achete la carte 
+				this.buyCard(carteChoisie);
+				
+			}else {
+				// Le joueur n'achete pas de carte - on a fini le tour
+				this.buys = 0;;
+			}
+		
+		}
+		
+		
+		this.endTurn();
 	}
 }
