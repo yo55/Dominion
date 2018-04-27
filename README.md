@@ -3,7 +3,7 @@
 Projet de programmation objet en Java - DUT Informatique année spéciale 2017-2018 - IUT de Montpellier
 
 
-## Prépartion d'une partie
+## Préparation d'une partie
 
 1. Chaque joueur reçoit 7 cartes cuivre et 3 cartes domaine. Ces 10 cartes forment le deck de départ du joueur
 Il prend 5 cartes parmis ces 10 pour consistuer sa main.
@@ -30,7 +30,7 @@ Chaque tour est constitué de 3 phases :
 
 La fin d'une partie intervient lorsque :
 
-- La pile des cartes Province dans la réserve est vie.
+- La pile des cartes Province dans la réserve est vide.
 - 3 piles de la réserve sont vides.
 
 Les joueurs comptent alors les points victoires sur leur cartes en main, dans leur deck et défausse. Le joueur qui a le plus de points victoire gagne la partie. En cas d'égalité, le joueur qui a le moins de tours l'emporte.
