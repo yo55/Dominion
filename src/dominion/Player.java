@@ -1,6 +1,8 @@
 package dominion;
 import java.util.*;
 import dominion.card.*;
+import dominion.card.common.Copper;
+import dominion.card.common.Estate;
 
 /**
  * Un joueur de Dominion
@@ -67,6 +69,31 @@ public class Player {
 	 * préparer la main du joueur après avoir placé les cartes dans la défausse.
 	 */
 	public Player(String name, Game game) {
+		// initialisations
+		this.name = name;
+		this.game = game;
+		
+		this.hand = new CardList();
+		this.discard = new CardList();
+		this.draw = new CardList();
+		this.inPlay = new CardList();
+		
+		
+		// Deck de départ : +7 cartes copper
+		for(int i=0; i<7; i++) {
+			this.discard.add(new Copper()); 
+		}
+		
+		// Deck de départ : +3 cartes Estate
+		for(int i=0;i<3; i++) {
+			this.discard.add(new Estate());
+		}
+		
+		// mélange du deck 
+		this.discard.shuffle();
+		
+		// initialisation des compteurs - pioche de la première main de 5 cartes
+		this.endTurn();
 	}
 
 	/**
