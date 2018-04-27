@@ -182,7 +182,7 @@ public class Player {
 	public int victoryPoints() {
 		int vPoints = 0;
 		for(Card card : this.totalCards()) {
-			if(card.getClass().equals(VictoryCard.class)) {
+			if(card instanceof VictoryCard) {
 				vPoints += ((VictoryCard)card).victoryValue(this);
 			}
 		}
@@ -228,8 +228,18 @@ public class Player {
 			// suppression de la défausse
 			this.discard.clear();
 		}
-		// on tire une carte de la pioche
-		return this.draw.get(0);
+		// on tire la première carte de la pioche
+		Card carte = this.draw.get(0);
+
+		// si la pioche n'est pas vide
+		if(carte != null) {
+			// on supprime la carte tirée de la pioche
+			this.draw.remove(0);
+			return carte;
+		}else {
+			return null;
+		}
+		
 	}
 
 	/**
@@ -634,7 +644,7 @@ public class Player {
 			}
 			String carteChoisie = this.chooseCard("Quelle carte voulez-vous acheter ? ", cartesAchetables, true);
 			if(!carteChoisie.equals("")) {
-				// On achete la carte
+				// On achete la carte - 
 				this.discard.add(this.game.removeFromSupply(carteChoisie));
 				
 				// décreément compteur achats
