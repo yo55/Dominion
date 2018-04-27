@@ -588,6 +588,65 @@ public class Player {
 		
 		this.startTurn();
 		
+		// 1. Actions. 
+		// tant qu'il y a des actions disponibles
+		while( this.actions > 0) {
+						
+			// demande du choix d'une carte action en main
+			CardList cartesAction = new CardList();
+			for(Card carte : this.hand) {
+				if(carte instanceof ActionCard) {
+					cartesAction.add(carte);
+				}
+			}
+			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", cartesAction, true);
+			
+			if(!carteChoisie.equals("") ) {
+				// on joue la carte action choisie
+				this.hand.getCard(carteChoisie).play(this);
+				
+				// décrément compteur actions
+				this.actions--;
+			}else {
+				// le joueur ne fait pas d'action- on continue le tour
+				this.actions = 0;
+			}
+			
+		}
+		
+		// 2. Achat
+		// On joue toutes les cartes trésor en main
+		for(Card carte : this.hand) {
+			if(carte instanceof TreasureCard) {
+				carte.play(this);
+			}
+		}
+		
+		// On propose des achats au joueur
+		while(this.buys > 0) {
+		
+			// On propose un achat de cartes présentes dans la réserve au joueur
+			CardList cartesAchetables = new CardList();
+			for(Card carte : this.game.availableSupplyCards()) {
+				if(carte.getCost() <= this.money) {
+					cartesAchetables.add(carte);
+				}
+			}
+			String carteChoisie = this.chooseCard("Quelle carte voulez-vous acheter ? ", cartesAchetables, true);
+			if(!carteChoisie.equals("")) {
+				// On achete la carte
+				this.discard.add(this.game.removeFromSupply(carteChoisie));
+				
+				// décreément compteur achats
+				this.buys--;
+								
+			}else {
+				// Le joueur n'achete pas de carte - on a fini le tour
+				this.buys = 0;;
+			}
+		
+		}
+		
 		
 		this.endTurn();
 	}
