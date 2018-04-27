@@ -398,7 +398,7 @@ public class Player {
 	 */
 	public Card buyCard(String cardName) {
 		Card carte = this.game.getFromSupply(cardName);
-		if(carte != null && this.money >= carte.getCost()) {
+		if(carte != null && this.buys > 0 && this.money >= carte.getCost() ) {
 			// on peut acheter la carte
 
 			// on la retire de la réserve
@@ -603,13 +603,7 @@ public class Player {
 		while( this.actions > 0) {
 						
 			// demande du choix d'une carte action en main
-			CardList cartesAction = new CardList();
-			for(Card carte : this.hand) {
-				if(carte instanceof ActionCard) {
-					cartesAction.add(carte);
-				}
-			}
-			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", cartesAction, true);
+			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", this.getActionCards(), true);
 			
 			if(!carteChoisie.equals("") ) {
 				// on joue la carte action choisie
@@ -626,16 +620,14 @@ public class Player {
 		
 		// 2. Achat
 		// On joue toutes les cartes trésor en main
-		for(Card carte : this.hand) {
-			if(carte instanceof TreasureCard) {
-				carte.play(this);
-			}
+		for(Card carte : this.getTreasureCards()) {
+			carte.play(this);
 		}
 		
 		// On propose des achats au joueur
 		while(this.buys > 0) {
 		
-			// On propose un achat de cartes présentes dans la réserve au joueur
+			// On propose uniquement les cartes que le joueur peut acheter avec l'argent dont il dispose
 			CardList cartesAchetables = new CardList();
 			for(Card carte : this.game.availableSupplyCards()) {
 				if(carte.getCost() <= this.money) {
@@ -644,12 +636,9 @@ public class Player {
 			}
 			String carteChoisie = this.chooseCard("Quelle carte voulez-vous acheter ? ", cartesAchetables, true);
 			if(!carteChoisie.equals("")) {
-				// On achete la carte - 
-				this.discard.add(this.game.removeFromSupply(carteChoisie));
+				// On achete la carte 
+				this.buyCard(carteChoisie);
 				
-				// décreément compteur achats
-				this.buys--;
-								
 			}else {
 				// Le joueur n'achete pas de carte - on a fini le tour
 				this.buys = 0;;
