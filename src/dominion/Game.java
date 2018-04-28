@@ -250,7 +250,7 @@ public class Game {
 	 * Teste si la partie est terminée
 	 * 
 	 * @return un booléen indiquant si la partie est terminée, c'est-à-dire si
-	 * au moins l'unedes deux conditions de fin suivantes est vraie
+	 * au moins l'une des deux conditions de fin suivantes est vraie
 	 *  - 3 piles ou plus de la réserve sont vides
 	 *  - la pile de Provinces de la réserve est vide
 	 * (on suppose que toute partie contient une pile de Provinces, et donc si 
@@ -258,6 +258,17 @@ public class Game {
 	 * c'est que la partie est terminée)
 	 */
 	public boolean isFinished() {
+		
+		int emptyStacks=0;
+		boolean provinceStackEmpty = true;
+		for(CardList stack : this.supplyStacks) {
+			if(!stack.isEmpty() && stack.get(0).getName().equals("Province")) {
+				provinceStackEmpty = false;
+			}else if(stack.isEmpty()) {
+				emptyStacks++;
+			}
+		}
+		return (emptyStacks>=3) || provinceStackEmpty;
 	}
 
 	/**
@@ -340,6 +351,32 @@ public class Game {
 		System.out.println("Removing one Duchy Card"); myGame.removeFromSupply("Duchy");
 
 		System.out.println("Game status : " + myGame.toString());
+		
+		System.out.println("*********");
+
+		
+		// test fonction isFinished()
+		myGame = new Game(myPlayers, new ArrayList<>());
+		System.out.println("New Game : " + myGame.toString());
+		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
+
+		
+		myGame.supplyStacks.get(5).clear();
+		System.out.println("Clearing Province stack : " + myGame.toString());
+		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
+
+		myGame = new Game(myPlayers, new ArrayList<>());
+		System.out.println("New Game : " + myGame.toString());
+		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
+		
+		myGame.supplyStacks.get(2).clear();
+		System.out.println("Clearing one stack : " + myGame.toString());
+		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
+		myGame.supplyStacks.get(3).clear();
+		System.out.println("Clearing one stack : " + myGame.toString());
+		myGame.supplyStacks.get(4).clear();
+		System.out.println("Clearing one stack : " + myGame.toString());
+		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
 
 
 		
