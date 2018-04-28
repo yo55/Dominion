@@ -61,6 +61,8 @@ public class Game {
 
 
 		// création de la réserve
+		this.supplyStacks = new ArrayList<>();
+
 
 		// ajout des cartes royaume à la réserve
 		this.supplyStacks.addAll(kingdomStacks);
@@ -120,6 +122,7 @@ public class Game {
 	 * Renvoie le nombre de joueurs participant à la partie
 	 */
 	public int numberOfPlayers() {
+		return this.players.length;
 	}
 
 	/**
@@ -127,6 +130,12 @@ public class Game {
 	 * joueurs, ou -1 si le joueur n'est pas dans le tableau.
 	 */
 	private int indexOfPlayer(Player p) {
+		for(int i=0; i<players.length; i++) {
+			if (players[i] == p) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -142,6 +151,23 @@ public class Game {
 	 * premier).
 	 */
 	public List<Player> otherPlayers(Player p) {
+		ArrayList<Player> listOthers = new ArrayList<>();
+		
+		// index du joueur p
+		int playerIndex = indexOfPlayer(p);
+		
+		// joueur suivant p
+		int nextPlayer = (playerIndex == players.length-1)?0:playerIndex+1;
+		
+		//System.out.println("\n player: " + playerIndex + " next: " + nextPlayer);
+		
+		// tous les joueurs après p cycliquement
+		for(int i=0; i<players.length-1; i++) {
+			listOthers.add(players[(i + nextPlayer)%(players.length)]);
+		}
+		
+		return listOthers;
+		
 	}
 
 	/**
@@ -238,5 +264,35 @@ public class Game {
 			Player p = this.players[i];
 			System.out.println(String.format("%s: %d Points.\n%s\n", p.getName(), p.victoryPoints(), p.totalCards().toString()));
 		}
+	}
+	
+	
+	public static void main(String[] args) {
+		// test fonction otherPlayers
+		
+		int nbPlayers = 6;
+		
+		System.out.print("Available players : ");
+		String[] myPlayers = new String[nbPlayers];
+		for(int i=0; i<nbPlayers; i++) {
+			myPlayers[i] = "player "+i;
+			System.out.print(myPlayers[i] +  " ");
+		}
+		System.out.println("");		
+		
+		Game myGame = new Game(myPlayers, new ArrayList<>());
+		
+		
+		for(int i=0; i<myPlayers.length; i++) {
+			System.out.print("Adversaries of player n° " + i + "  are : ");
+
+			for(Player pl : myGame.otherPlayers(myGame.getPlayer(i))) {
+				System.out.print(pl.getName() + " | ");
+			}
+			System.out.println("");
+		}
+
+		
+		
 	}
 }

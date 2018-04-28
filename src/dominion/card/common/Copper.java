@@ -13,4 +13,10 @@ public class Copper extends TreasureCard {
 	public int treasureValue() {
 		return 1;
 	}
+
+	@Override
+	public void play(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
 }
