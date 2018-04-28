@@ -11,12 +11,12 @@ public class Game {
 	 * Tableau contenant les joueurs de la partie
 	 */
 	private Player[] players;
-	
+
 	/**
 	 * Index du joueur dont c'est actuellement le tour
 	 */
 	private int currentPlayerIndex;
-	
+
 	/**
 	 * Liste des piles dans la réserve du jeu.
 	 * 
@@ -26,12 +26,12 @@ public class Game {
 	 * la pile ont été achetées ou gagnées par les joueurs.
 	 */
 	private List<CardList> supplyStacks;
-	
+
 	/**
 	 * Liste des cartes qui ont été écartées (trash)
 	 */
 	private CardList trashedCards;
-	
+
 	/**
 	 * Constructeur
 	 * 
@@ -46,8 +46,65 @@ public class Game {
 	 * - 8 (si 2 joueurs) ou 12 (si 3 ou 4 joueurs) Estate, Duchy et Province 	 * - 10 * (n-1) Curse où n est le nombre de joueurs dans la partie
 	 */
 	public Game(String[] playerNames, List<CardList> kingdomStacks) {
+
+		int nbPlayers = playerNames.length;
+		
+		// initialisations
+		this.currentPlayerIndex = 0;
+		this.trashedCards = new CardList();
+
+		// création des joueurs
+		this.players = new Player[nbPlayers];
+		for(int i=0; i<nbPlayers; i++) {
+			this.players[i] = new Player(playerNames[i], this);
+		}
+
+
+		// création de la réserve
+
+		// ajout des cartes royaume à la réserve
+		this.supplyStacks.addAll(kingdomStacks);
+
+		// ajout pile cartes cuivre
+		CardList copperCards = new CardList();
+		for(int i =0; i<60-(nbPlayers*7); i++) {
+			copperCards.add(new Copper());
+		}
+		this.supplyStacks.add(copperCards);
+
+		// ajout pile cartes argent
+		CardList silverCards = new CardList();
+		for(int i =0; i<40; i++) {
+			silverCards.add(new Copper());
+		}
+		this.supplyStacks.add(silverCards);
+
+		// ajout pile cartes or
+		CardList goldCards = new CardList();
+		for(int i =0; i<30; i++) {
+			goldCards.add(new Copper());
+		}
+		this.supplyStacks.add(goldCards);
+		
+		// ajout pile cartes Victoire (Estate, Duchy et Province)
+		CardList estateCards = new CardList();
+		CardList duchyCards = new CardList();
+		CardList provinceCards = new CardList();
+		
+		int nbVictoryCards = (nbPlayers <= 2)?8:12;
+		for(int i= 0; i<nbVictoryCards; i++) {
+			estateCards.add(new Estate());
+			duchyCards.add(new Duchy());
+			provinceCards.add(new Province());
+		}
+		
+		this.supplyStacks.add(estateCards);
+		this.supplyStacks.add(duchyCards);
+		this.supplyStacks.add(provinceCards);
+		
+		
 	}
-	
+
 	/**
 	 * Renvoie le joueur correspondant à l'indice passé en argument
 	 * On suppose {@code index} est un indice valide du tableau 
@@ -57,20 +114,20 @@ public class Game {
 	 */
 	public Player getPlayer(int index) {
 	}
-	
+
 	/**
 	 * Renvoie le nombre de joueurs participant à la partie
 	 */
 	public int numberOfPlayers() {
 	}
-	
+
 	/**
 	 * Renvoie l'indice du joueur passé en argument dans le tableau des 
 	 * joueurs, ou -1 si le joueur n'est pas dans le tableau.
 	 */
 	private int indexOfPlayer(Player p) {
 	}
-	
+
 	/**
 	 * Renvoie la liste des adversaires du joueur passé en argument, dans 
 	 * l'ordre dans lequel ils apparaissent à partir du joueur {@code p}.
@@ -85,7 +142,7 @@ public class Game {
 	 */
 	public List<Player> otherPlayers(Player p) {
 	}
-	
+
 	/**
 	 * Renvoie la liste des cartes qui sont disponibles à l'achat dans la 
 	 * réserve.
@@ -95,7 +152,7 @@ public class Game {
 	 */
 	public CardList availableSupplyCards() {
 	}
-	
+
 	/**
 	 * Renvoie une représentation de l'état de la partie sous forme d'une chaîne
 	 * de caractères.
@@ -122,7 +179,7 @@ public class Game {
 		r += "\n";
 		return r;
 	}
-	
+
 	/**
 	 * Renvoie une carte de la réserve dont le nom est passé en argument.
 	 * 
@@ -132,7 +189,7 @@ public class Game {
 	 */
 	public Card getFromSupply(String cardName) {
 	}
-	
+
 	/**
 	 * Retire et renvoie une carte de la réserve
 	 * 
@@ -142,7 +199,7 @@ public class Game {
 	 */
 	public Card removeFromSupply(String cardName) {
 	}
-	
+
 	/**
 	 * Teste si la partie est terminée
 	 * 
@@ -156,7 +213,7 @@ public class Game {
 	 */
 	public boolean isFinished() {
 	}
-	
+
 	/**
 	 * Boucle d'exécution d'une partie.
 	 * 
