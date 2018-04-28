@@ -3,7 +3,15 @@
 Projet de programmation objet en Java - DUT Informatique année spéciale 2017-2018 - IUT de Montpellier
 
 
-## Préparation d'une partie
+## Consignes de développement
+
+- créer au moins une branche par développement de classe sous le nom : make_'classe'
+
+- Ajouter une méthode main dans chaque classe pour réaliser les tests unitaires.
+
+## Règles du jeu
+
+### Préparation d'une partie
 
 1. Chaque joueur reçoit 7 cartes cuivre et 3 cartes domaine. Ces 10 cartes forment le deck de départ du joueur
 Il prend 5 cartes parmis ces 10 pour consistuer sa main.
@@ -18,7 +26,7 @@ Atelier Bucheron Cave Douves Forgeron Marché Milice Mine Renovation Village.
 3. Dans la cas de la carte Royaume Jardins, si elle est choisie parmis les 10 cartes Royaume, un tas de cartes Victoire Jardin égal en nombre aux deux autres piles Victoire doit être placé à côté
 
 
-## Déroulement d'une partie
+### Déroulement d'une partie
 
 Chaque tour est constitué de 3 phases : 
 
