@@ -77,14 +77,14 @@ public class Game {
 		// ajout pile cartes argent
 		CardList silverCards = new CardList();
 		for(int i =0; i<40; i++) {
-			silverCards.add(new Copper());
+			silverCards.add(new Silver());
 		}
 		this.supplyStacks.add(silverCards);
 
 		// ajout pile cartes or
 		CardList goldCards = new CardList();
 		for(int i =0; i<30; i++) {
-			goldCards.add(new Copper());
+			goldCards.add(new Gold());
 		}
 		this.supplyStacks.add(goldCards);
 		
@@ -178,6 +178,13 @@ public class Game {
 	 * non-vide de la réserve (cartes royaume et cartes communes)
 	 */
 	public CardList availableSupplyCards() {
+		CardList availCards = new CardList();
+		for( CardList pile : this.supplyStacks) {
+			if(!pile.isEmpty() ) {
+				availCards.add(pile.get(0));
+			}
+		}
+		return availCards;
 	}
 
 	/**
@@ -268,21 +275,22 @@ public class Game {
 	
 	
 	public static void main(String[] args) {
-		// test fonction otherPlayers
-		
 		int nbPlayers = 6;
 		
+		// création du jeu
 		System.out.print("Available players : ");
 		String[] myPlayers = new String[nbPlayers];
 		for(int i=0; i<nbPlayers; i++) {
 			myPlayers[i] = "player "+i;
 			System.out.print(myPlayers[i] +  " ");
 		}
-		System.out.println("");		
 		
 		Game myGame = new Game(myPlayers, new ArrayList<>());
+		System.out.println("\n"+myGame.toString());
+		System.out.println("*********");		
+
 		
-		
+		// test fonction otherPlayers
 		for(int i=0; i<myPlayers.length; i++) {
 			System.out.print("Adversaries of player n° " + i + "  are : ");
 
@@ -291,6 +299,24 @@ public class Game {
 			}
 			System.out.println("");
 		}
+		
+		System.out.println("*********");
+		
+		System.out.print("Supply cards available at game begining : ");
+		for(Card card : myGame.availableSupplyCards()) {
+			System.out.print(card.getName() + " | ");
+		} 
+		System.out.println("");
+
+		myGame.supplyStacks.get(4).clear();
+		System.out.print("Supply cards available after removing all Duchy Cards : ");
+		for(Card card : myGame.availableSupplyCards()) {
+			System.out.print(card.getName() + " | ");
+		} 
+		System.out.println("\nGame status : " + myGame.toString());
+		
+		System.out.println("*********");
+
 
 		
 		
