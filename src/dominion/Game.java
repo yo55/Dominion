@@ -222,6 +222,12 @@ public class Game {
 	 * ne correspond
 	 */
 	public Card getFromSupply(String cardName) {
+		for(CardList stack : this.supplyStacks) {
+			if (!stack.isEmpty() && stack.get(0).getName().equals(cardName)) {
+				return stack.get(0);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -232,6 +238,12 @@ public class Game {
 	 * ne correspond au nom passé en argument
 	 */
 	public Card removeFromSupply(String cardName) {
+		for(CardList stack : this.supplyStacks) {
+			if (!stack.isEmpty() && stack.get(0).getName().equals(cardName)) {
+				return stack.remove(0);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -302,6 +314,7 @@ public class Game {
 		
 		System.out.println("*********");
 		
+		// test fonction availableSupplyCards()
 		System.out.print("Supply cards available at game begining : ");
 		for(Card card : myGame.availableSupplyCards()) {
 			System.out.print(card.getName() + " | ");
@@ -316,6 +329,17 @@ public class Game {
 		System.out.println("\nGame status : " + myGame.toString());
 		
 		System.out.println("*********");
+		
+		// test fonction get/remove fromSupply()
+		System.out.println("getFromSupply(Gold): " + (myGame.getFromSupply("Gold")==null?"null":"not null"));
+		System.out.println("getFromSupply(Duchy): " + (myGame.getFromSupply("Duchy")==null?"null":"not null"));
+		System.out.println("getFromSupply(Truc): " + (myGame.getFromSupply("Truc")==null?"null":"not null"));
+
+		System.out.println("Removing one Gold Card"); myGame.removeFromSupply("Gold");
+		System.out.println("Removing one Estate Card"); myGame.removeFromSupply("Estate");
+		System.out.println("Removing one Duchy Card"); myGame.removeFromSupply("Duchy");
+
+		System.out.println("Game status : " + myGame.toString());
 
 
 		
