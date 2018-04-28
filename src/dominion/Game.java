@@ -113,6 +113,7 @@ public class Game {
 	 * @param index indice dans le tableau des joueurs du joueur à renvoyer
 	 */
 	public Player getPlayer(int index) {
+		return this.players[index];
 	}
 
 	/**
