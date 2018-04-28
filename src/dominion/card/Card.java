@@ -45,6 +45,7 @@ public abstract class Card {
 	 * {@code ArrayList} vide, auquel les sous-classes ajouteront les types.
 	 */
 	public List<CardType> getTypes() {
+		return new ArrayList<CardType>();
 	}
 	
 	/**
@@ -52,6 +53,7 @@ public abstract class Card {
 	 * (ici la fonction renvoie le nom de la carte)
 	 */
 	public String toString() {
+		return this.name;
 	}
 	
 	/**
