@@ -295,6 +295,25 @@ public class Player {
 	/**
 	 * Auteur : Yoann
 	 * 
+	 * Ajoute une carte au rebus et l'élimine d'une des deux
+	 * provenances possibles
+	 * 
+	 * @param c carte à écarter
+	 */
+	public void trashCard(Card c) {
+		if(c != null) {
+			this.game.addToTrash(c);
+			if(this.hand.contains(c)) {
+				this.hand.remove(c);
+			}else if (this.inPlay.contains(c)) {
+				this.inPlay.remove(c);
+			}
+		}
+	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
 	 * Defausse le deck
 	 * Ajoute toute la pioche à la défausse de façon à provoquer
 	 * un nouveau mélange au prochain tour
