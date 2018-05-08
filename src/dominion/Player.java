@@ -241,6 +241,17 @@ public class Player {
 		}
 		
 	}
+	
+	/**
+	 * Auteur : Yoann 
+	 * 
+	 * Ajoute une carte à la main du joueur
+	 * Est utilisé lors des actions qui nécessitent de piocher une carte
+	 * @param c
+	 */
+	public void addToHand(Card c) {
+		this.hand.add(c);
+	}
 
 	/**
 	 * Renvoie une représentation de l'état du joueur sous forme d'une chaîne
@@ -620,7 +631,7 @@ public class Player {
 		// 2. Achat
 		// On joue toutes les cartes trésor en main
 		for(Card carte : this.getTreasureCards()) {
-			carte.play(this);
+			this.playCard(carte);
 		}
 		
 		// On propose des achats au joueur
