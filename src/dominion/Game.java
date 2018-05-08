@@ -235,6 +235,19 @@ public class Game {
 		}
 		return null;
 	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Rajoute la carte c au rebus
+	 * La fonction ne fait rien si la carte est null
+	 * @param c La carte à mettre au rebus
+	 */
+	public void addToTrash(Card c) {
+		if(c != null) {
+			this.trashedCards.add(c);
+		}
+	}
 
 	/**
 	 * Retire et renvoie une carte de la réserve

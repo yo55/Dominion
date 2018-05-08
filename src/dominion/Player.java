@@ -72,26 +72,26 @@ public class Player {
 		// initialisations
 		this.name = name;
 		this.game = game;
-		
+
 		this.hand = new CardList();
 		this.discard = new CardList();
 		this.draw = new CardList();
 		this.inPlay = new CardList();
-		
-		
+
+
 		// Deck de départ : +7 cartes copper
 		for(int i=0; i<7; i++) {
 			this.discard.add(new Copper()); 
 		}
-		
+
 		// Deck de départ : +3 cartes Estate
 		for(int i=0;i<3; i++) {
 			this.discard.add(new Estate());
 		}
-		
+
 		// mélange du deck 
 		this.discard.shuffle();
-		
+
 		// initialisation des compteurs - pioche de la première main de 5 cartes
 		this.endTurn();
 	}
@@ -228,20 +228,20 @@ public class Player {
 			// suppression de la défausse
 			this.discard.clear();
 		}
-		// on tire la première carte de la pioche
-		Card carte = this.draw.get(0);
 
-		// si la pioche n'est pas vide
-		if(carte != null) {
+		if(this.draw.size() != 0) { 
+			// on tire la première carte de la pioche
+			Card carte = this.draw.get(0);
+
 			// on supprime la carte tirée de la pioche
 			this.draw.remove(0);
 			return carte;
 		}else {
 			return null;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Auteur : Yoann 
 	 * 
@@ -271,6 +271,23 @@ public class Player {
 		if (carte != null && !carte.isEmpty()) {
 			Card carteDefausse = this.hand.remove(carte);
 			this.discard.add(carteDefausse);
+		}
+	}
+
+	/**
+	 * Auteur : Yoann
+	 * Met une carte au rebus
+	 * Est utilisé lors des actions "Ecartez"
+	 * La fonction ne vérifie pas que la carte appartienne à la main du joueur
+	 * 
+	 * Prérequis : la carte doit appartenir à la main du joueur
+	 *
+	 * @param carte nom de la carte à écarter
+	 */
+	public void trashCard(String carte) {
+		if (carte != null && !carte.isEmpty()) {
+			Card carteEcarte = this.hand.remove(carte);
+			this.game.addToTrash(carteEcarte);
 		}
 	}
 
@@ -435,12 +452,12 @@ public class Player {
 
 			// on la retire de la réserve
 			this.game.removeFromSupply(cardName);
-			
+
 			// on fait l'achat
 			this.money -= carte.getCost();
 			this.buys--;
 			this.gain(carte);
-			
+
 			return carte;
 		}else{
 			// l'achat n'est pas possible
@@ -585,17 +602,17 @@ public class Player {
 		this.actions = 0;
 		this.buys = 0;
 		this.money = 0;
-		
+
 		this.discard.addAll(this.hand);
 		this.discard.addAll(this.inPlay);
-		
+
 		this.inPlay.clear();
 		this.hand.clear();
-		
+
 		for(int i=0; i<5; i++) {
 			this.hand.add(this.drawCard());
 		}
-		
+
 	}
 
 	/**
@@ -626,20 +643,20 @@ public class Player {
 	 * du joueur
 	 */
 	public void playTurn() {
-		
+
 		this.startTurn();
-		
+
 		// 1. Actions. 
 		// tant qu'il y a des actions disponibles
 		while( this.actions > 0) {
-						
+
 			// demande du choix d'une carte action en main
 			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", this.getActionCards(), true);
-			
+
 			if(!carteChoisie.equals("") ) {
 				// on joue la carte
 				this.playCard(carteChoisie);
-				
+
 				// décrément compteur actions
 				this.actions--;
 
@@ -647,18 +664,18 @@ public class Player {
 				// le joueur ne fait pas d'action - on continue le tour
 				this.actions = 0;
 			}
-			
+
 		}
-		
+
 		// 2. Achat
 		// On joue toutes les cartes trésor en main
 		for(Card carte : this.getTreasureCards()) {
 			this.playCard(carte);
 		}
-		
+
 		// On propose des achats au joueur
 		while(this.buys > 0) {
-		
+
 			// On propose uniquement les cartes que le joueur peut acheter avec l'argent dont il dispose
 			CardList cartesAchetables = new CardList();
 			for(Card carte : this.game.availableSupplyCards()) {
@@ -670,15 +687,15 @@ public class Player {
 			if(!carteChoisie.equals("")) {
 				// On achete la carte 
 				this.buyCard(carteChoisie);
-				
+
 			}else {
 				// Le joueur n'achete pas de carte - on a fini le tour
 				this.buys = 0;;
 			}
-		
+
 		}
-		
-		
+
+
 		this.endTurn();
 	}
 }

@@ -26,9 +26,15 @@ class Main {
 			stackCellar.add(new Cellar());
 		}
 		
+		CardList stackChapel= new CardList();
+		for (int i = 0; i < 10; i++) {
+			stackChapel.add(new Chapel());
+		}
+		
 		// Ajouter un bloc pour chaque carte royaume à utiliser
 		kingdomStacks.add(stackVillage);
 		kingdomStacks.add(stackCellar);
+		kingdomStacks.add(stackChapel);
 
 
 		
