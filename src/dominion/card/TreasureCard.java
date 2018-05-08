@@ -27,6 +27,6 @@ public abstract class TreasureCard extends Card {
 	 * @see dominion.card.Card#play(dominion.Player)
 	 */
 	public void play(Player p) {
-		p.incrementBuys(this.treasureValue());
+		p.incrementMoney(this.treasureValue());
 	}
 }
