@@ -247,10 +247,31 @@ public class Player {
 	 * 
 	 * Ajoute une carte à la main du joueur
 	 * Est utilisé lors des actions qui nécessitent de piocher une carte
-	 * @param c
+	 * La fonction vérifie que la carte n'est pas null mais ne vérifie pas d'où elle vient.
+	 * @param c carte à rajouter
 	 */
 	public void addToHand(Card c) {
-		this.hand.add(c);
+		if (c!=null) {
+			this.hand.add(c);
+		}
+	}
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Defausse une carte (passer une carte de la main à la défausse)
+	 * Est utilisé lors des actions de défausse.
+	 * La fonction ne vérifie pas que la carte appartienne à la main du joueur
+	 * 
+	 * Prérequis : la carte doit appartenir à la main du joueur
+	 * 
+	 * @param carte nom de la carte à défausser 
+	 * 
+	 */ 
+	public void discardCard(String carte) {
+		if (carte != null && !carte.isEmpty()) {
+			Card carteDefausse = this.hand.remove(carte);
+			this.discard.add(carteDefausse);
+		}
 	}
 
 	/**
@@ -616,13 +637,14 @@ public class Player {
 			String carteChoisie = this.chooseCard("Quelle carte action voulez-vous jouer ? ", this.getActionCards(), true);
 			
 			if(!carteChoisie.equals("") ) {
-				// on joue la carte action choisie
-				this.hand.getCard(carteChoisie).play(this);
+				// on joue la carte
+				this.playCard(carteChoisie);
 				
 				// décrément compteur actions
 				this.actions--;
+
 			}else {
-				// le joueur ne fait pas d'action- on continue le tour
+				// le joueur ne fait pas d'action - on continue le tour
 				this.actions = 0;
 			}
 			

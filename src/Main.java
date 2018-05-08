@@ -12,15 +12,26 @@ class Main {
 		// (le nombre total de joueurs correspond au nombre de noms dans le 
 		// tableau)
 		String[] playerNames = new String[]{"Marco", "Polo"};
+		
 		// Prépare les piles "royaume" de la réserve (hors cartes communes)
 		List<CardList> kingdomStacks = new ArrayList<CardList>();
-		CardList stack;
-		// Ajouter un bloc pour chaque carte royaume à utiliser
-		kingdomStacks.add(stack);
-		stack = new CardList();
+		
+		CardList stackVillage = new CardList();
 		for (int i = 0; i < 10; i++) {
-			stack.add(new Village());
+			stackVillage.add(new Village());
 		}
+		
+		CardList stackCellar= new CardList();
+		for (int i = 0; i < 10; i++) {
+			stackCellar.add(new Cellar());
+		}
+		
+		// Ajouter un bloc pour chaque carte royaume à utiliser
+		kingdomStacks.add(stackVillage);
+		kingdomStacks.add(stackCellar);
+
+
+		
 		
 		// Instancie et exécute une partie
 		Game g = new Game(playerNames, kingdomStacks);
