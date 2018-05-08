@@ -1,3 +1,4 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import dominion.*;
 import dominion.card.*;
@@ -12,48 +13,32 @@ class Main {
 		// (le nombre total de joueurs correspond au nombre de noms dans le 
 		// tableau)
 		String[] playerNames = new String[]{"Marco", "Polo"};
-		
+
 		// Prépare les piles "royaume" de la réserve (hors cartes communes)
 		List<CardList> kingdomStacks = new ArrayList<CardList>();
-		
-		CardList stackVillage = new CardList();
-		for (int i = 0; i < 10; i++) {
-			stackVillage.add(new Village());
-		}
-		
-		CardList stackCellar= new CardList();
-		for (int i = 0; i < 10; i++) {
-			stackCellar.add(new Cellar());
-		}
-		
-		CardList stackChapel= new CardList();
-		for (int i = 0; i < 10; i++) {
-			stackChapel.add(new Chapel());
-		}
-		
-		CardList stackChancellor= new CardList();
-		for (int i = 0; i < 10; i++) {
-			stackChancellor.add(new Chancellor());
-		}
-		
-		CardList stackWoodcutter= new CardList();
-		for (int i = 0; i < 10; i++) {
-			stackWoodcutter.add(new Woodcutter());
-		}
-		
-		
-		// Ajouter un bloc pour chaque carte royaume à utiliser
-		kingdomStacks.add(stackVillage);
-		kingdomStacks.add(stackCellar);
-		kingdomStacks.add(stackChapel);
-		kingdomStacks.add(stackChancellor);
-		kingdomStacks.add(stackWoodcutter);
 
-
-
-
+		List<Class<? extends ActionCard>> kingdomCards = Arrays.asList(
+				Village.class,
+				Cellar.class,
+				Chapel.class,
+				Chancellor.class, 
+				Woodcutter.class, 
+				Workshop.class
+				);
 		
-		
+		for(Class<? extends ActionCard> card : kingdomCards) {
+			CardList kingdomStack = new CardList();
+			for(int i = 0; i < 10; i++) {
+				try {
+					kingdomStack.add( card.getConstructor().newInstance());
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}
+			kingdomStacks.add(kingdomStack);
+		}
+
+	
 		// Instancie et exécute une partie
 		Game g = new Game(playerNames, kingdomStacks);
 		g.run();

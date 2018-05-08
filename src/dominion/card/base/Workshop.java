@@ -1,5 +1,4 @@
 package dominion.card.base;
-import java.util.*;
 import dominion.*;
 import dominion.card.*;
 
@@ -9,4 +8,25 @@ import dominion.card.*;
  * Recevez une carte coûtant jusqu'à 4 Pièces.
  */
 public class Workshop extends ActionCard {
+
+	public Workshop() {
+		super("Workshop", 3);
+	}
+
+	@Override
+	/**
+	 * @see dominion.card.Card#play(dominion.Player)
+	 */
+	public void play(Player p) {
+		
+		CardList cartesPossibles = new CardList();
+		
+		for(Card c : p.getGame().availableSupplyCards()) {
+			if(c.getCost() <= 4) {
+				cartesPossibles.add(c);
+			}
+		}
+		p.gain(p.chooseCard("WORKSHOP: Choisir une carte de coût <= 4 :", cartesPossibles, false));
+	}
+	
 }
