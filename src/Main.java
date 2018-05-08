@@ -24,7 +24,8 @@ class Main {
 				Chancellor.class, 
 				Woodcutter.class, 
 				Workshop.class,
-				Feast.class
+				Feast.class,
+				Smithy.class
 				);
 		
 		for(Class<? extends ActionCard> card : kingdomCards) {
