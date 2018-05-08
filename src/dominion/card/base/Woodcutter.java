@@ -10,4 +10,24 @@ import dominion.card.*;
  * +2 Pièces.
  */
 public class Woodcutter extends ActionCard {
+	
+	/**
+	 * Constructeur cartes bûcheron
+	 */
+	public Woodcutter() {
+		super("Woodcutter", 3);
+	}
+	
+	@Override
+	/**
+	 * @see dominion.card.Card#play(dominion.Player)
+	 */
+	public void play(Player p) {
+		
+		// +1 achat
+		p.incrementBuys(1);
+		
+		// +2 pièces
+		p.incrementMoney(2);
+	}
 }

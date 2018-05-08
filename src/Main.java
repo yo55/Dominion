@@ -36,11 +36,19 @@ class Main {
 			stackChancellor.add(new Chancellor());
 		}
 		
+		CardList stackWoodcutter= new CardList();
+		for (int i = 0; i < 10; i++) {
+			stackWoodcutter.add(new Woodcutter());
+		}
+		
+		
 		// Ajouter un bloc pour chaque carte royaume à utiliser
 		kingdomStacks.add(stackVillage);
 		kingdomStacks.add(stackCellar);
 		kingdomStacks.add(stackChapel);
 		kingdomStacks.add(stackChancellor);
+		kingdomStacks.add(stackWoodcutter);
+
 
 
 
