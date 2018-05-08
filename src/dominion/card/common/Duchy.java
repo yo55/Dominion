@@ -8,8 +8,17 @@ import dominion.card.*;
  * 3 VP
  */
 public class Duchy extends VictoryCard {
-	public Duchy() { super("Duchy", 5);	}
 	
+	/**
+	 * Constructeur
+	 */
+	public Duchy() { 
+		super("Duchy", 5);	
+	}
+
+	/**
+	 * @see dominion.card.VictoryCard#victoryValue(dominion.Player)
+	 */
 	public int victoryValue(Player p) {
 		return 3;
 	}

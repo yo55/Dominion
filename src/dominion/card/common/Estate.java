@@ -8,15 +8,19 @@ import dominion.card.*;
  * 1 VP
  */
 public class Estate extends VictoryCard {
-	public Estate() { super("Estate", 2);	}
 	
+	/**
+	 * Constructeur
+	 */
+	public Estate() { 
+		super("Estate", 2);	
+	}
+	
+	/**
+	 * @see dominion.card.VictoryCard#victoryValue(dominion.Player)
+	 */
 	public int victoryValue(Player p) {
 		return 1;
 	}
-
-	@Override
-	public void play(Player p) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

@@ -6,9 +6,13 @@ import dominion.*;
  * Les cartes Victoire
  */
 public abstract class VictoryCard extends Card {
-
+	
+	/**
+	 * Constructeur
+	 * @param string nom de la carte victoire
+	 * @param i coût de la carte victoire
+	 */
 	public VictoryCard(String string, int i) {
-		// TODO Auto-generated constructor stub
 		super(string, i);
 	}
 	

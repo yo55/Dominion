@@ -8,8 +8,17 @@ import dominion.card.*;
  * 6 VP
  */
 public class Province extends VictoryCard {
-	public Province() { super("Province", 8);	}
 	
+	/**
+	 * Constructeur
+	 */
+	public Province() { 
+		super("Province", 8);	
+	}
+	
+	/**
+	 * @see dominion.card.VictoryCard#victoryValue(dominion.Player)
+	 */
 	public int victoryValue(Player p) {
 		return 6;
 	}
