@@ -31,10 +31,17 @@ class Main {
 			stackChapel.add(new Chapel());
 		}
 		
+		CardList stackChancellor= new CardList();
+		for (int i = 0; i < 10; i++) {
+			stackChancellor.add(new Chancellor());
+		}
+		
 		// Ajouter un bloc pour chaque carte royaume à utiliser
 		kingdomStacks.add(stackVillage);
 		kingdomStacks.add(stackCellar);
 		kingdomStacks.add(stackChapel);
+		kingdomStacks.add(stackChancellor);
+
 
 
 		

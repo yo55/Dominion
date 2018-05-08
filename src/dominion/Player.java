@@ -276,6 +276,7 @@ public class Player {
 
 	/**
 	 * Auteur : Yoann
+	 * 
 	 * Met une carte au rebus
 	 * Est utilisé lors des actions "Ecartez"
 	 * La fonction ne vérifie pas que la carte appartienne à la main du joueur
@@ -289,6 +290,18 @@ public class Player {
 			Card carteEcarte = this.hand.remove(carte);
 			this.game.addToTrash(carteEcarte);
 		}
+	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Defausse le deck
+	 * Ajoute toute la pioche à la défausse de façon à provoquer
+	 * un nouveau mélange au prochain tour
+	 */
+	public void discardDeck() {
+		this.discard.addAll(this.draw);
+		this.draw.clear();
 	}
 
 	/**
