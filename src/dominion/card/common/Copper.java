@@ -1,5 +1,4 @@
 package dominion.card.common;
-import dominion.*;
 import dominion.card.*;
 
 /**
