@@ -33,6 +33,11 @@ public class Game {
 	private CardList trashedCards;
 
 	/**
+	 * Scanner permettant de lire les entrées au clavier
+	 */
+	private Scanner scanner;
+
+	/**
 	 * Constructeur
 	 * 
 	 * @param playerNames liste des noms des joueurs qui participent à la 
@@ -48,10 +53,11 @@ public class Game {
 	public Game(String[] playerNames, List<CardList> kingdomStacks) {
 
 		int nbPlayers = playerNames.length;
-		
+
 		// initialisations
 		this.currentPlayerIndex = 0;
 		this.trashedCards = new CardList();
+		this.scanner = new Scanner(System.in);
 
 		// création des joueurs
 		this.players = new Player[nbPlayers];
@@ -87,24 +93,24 @@ public class Game {
 			goldCards.add(new Gold());
 		}
 		this.supplyStacks.add(goldCards);
-		
+
 		// ajout pile cartes Victoire (Estate, Duchy et Province)
 		CardList estateCards = new CardList();
 		CardList duchyCards = new CardList();
 		CardList provinceCards = new CardList();
-		
+
 		int nbVictoryCards = (nbPlayers <= 2)?8:12;
 		for(int i= 0; i<nbVictoryCards; i++) {
 			estateCards.add(new Estate());
 			duchyCards.add(new Duchy());
 			provinceCards.add(new Province());
 		}
-		
+
 		this.supplyStacks.add(estateCards);
 		this.supplyStacks.add(duchyCards);
 		this.supplyStacks.add(provinceCards);
-		
-		
+
+
 	}
 
 	/**
@@ -152,22 +158,22 @@ public class Game {
 	 */
 	public List<Player> otherPlayers(Player p) {
 		ArrayList<Player> listOthers = new ArrayList<>();
-		
+
 		// index du joueur p
 		int playerIndex = indexOfPlayer(p);
-		
+
 		// joueur suivant p
 		int nextPlayer = (playerIndex == players.length-1)?0:playerIndex+1;
-		
+
 		//System.out.println("\n player: " + playerIndex + " next: " + nextPlayer);
-		
+
 		// tous les joueurs après p cycliquement
 		for(int i=0; i<players.length-1; i++) {
 			listOthers.add(players[(i + nextPlayer)%(players.length)]);
 		}
-		
+
 		return listOthers;
-		
+
 	}
 
 	/**
@@ -258,7 +264,7 @@ public class Game {
 	 * c'est que la partie est terminée)
 	 */
 	public boolean isFinished() {
-		
+
 		int emptyStacks=0;
 		boolean provinceStackEmpty = true;
 		for(CardList stack : this.supplyStacks) {
@@ -295,11 +301,25 @@ public class Game {
 			System.out.println(String.format("%s: %d Points.\n%s\n", p.getName(), p.victoryPoints(), p.totalCards().toString()));
 		}
 	}
-	
-	
+
+	/**
+	 * Lit une ligne de l'entrée standard
+	 * 
+	 * C'est cette méthode qui doit être appelée à chaque fois qu'on veut lire
+	 * l'entrée clavier de l'utilisateur (par exemple dans Player.choose), ce
+	 * qui permet de n'avoir qu'un seul Scanner pour tout le programme
+	 * 
+	 * @return une chaîne de caractères correspondant à la ligne suivante de
+	 * l'entrée standard (sans le retour à la ligne final)
+	 */
+	public String readLine() {
+		return this.scanner.nextLine();
+	}
+
+
 	public static void main(String[] args) {
 		int nbPlayers = 6;
-		
+
 		// création du jeu
 		System.out.print("Available players : ");
 		String[] myPlayers = new String[nbPlayers];
@@ -307,12 +327,12 @@ public class Game {
 			myPlayers[i] = "player "+i;
 			System.out.print(myPlayers[i] +  " ");
 		}
-		
+
 		Game myGame = new Game(myPlayers, new ArrayList<>());
 		System.out.println("\n"+myGame.toString());
 		System.out.println("*********");		
 
-		
+
 		// test fonction otherPlayers
 		for(int i=0; i<myPlayers.length; i++) {
 			System.out.print("Adversaries of player n° " + i + "  are : ");
@@ -322,9 +342,9 @@ public class Game {
 			}
 			System.out.println("");
 		}
-		
+
 		System.out.println("*********");
-		
+
 		// test fonction availableSupplyCards()
 		System.out.print("Supply cards available at game begining : ");
 		for(Card card : myGame.availableSupplyCards()) {
@@ -338,9 +358,9 @@ public class Game {
 			System.out.print(card.getName() + " | ");
 		} 
 		System.out.println("\nGame status : " + myGame.toString());
-		
+
 		System.out.println("*********");
-		
+
 		// test fonction get/remove fromSupply()
 		System.out.println("getFromSupply(Gold): " + (myGame.getFromSupply("Gold")==null?"null":"not null"));
 		System.out.println("getFromSupply(Duchy): " + (myGame.getFromSupply("Duchy")==null?"null":"not null"));
@@ -351,16 +371,16 @@ public class Game {
 		System.out.println("Removing one Duchy Card"); myGame.removeFromSupply("Duchy");
 
 		System.out.println("Game status : " + myGame.toString());
-		
+
 		System.out.println("*********");
 
-		
+
 		// test fonction isFinished()
 		myGame = new Game(myPlayers, new ArrayList<>());
 		System.out.println("New Game : " + myGame.toString());
 		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
 
-		
+
 		myGame.supplyStacks.get(5).clear();
 		System.out.println("Clearing Province stack : " + myGame.toString());
 		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
@@ -368,7 +388,7 @@ public class Game {
 		myGame = new Game(myPlayers, new ArrayList<>());
 		System.out.println("New Game : " + myGame.toString());
 		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
-		
+
 		myGame.supplyStacks.get(2).clear();
 		System.out.println("Clearing one stack : " + myGame.toString());
 		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
@@ -379,7 +399,7 @@ public class Game {
 		System.out.println("Is the Game finished ? " + (myGame.isFinished()?"yes":"no"));
 
 
-		
-		
+
+
 	}
 }
