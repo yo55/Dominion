@@ -8,8 +8,16 @@ import dominion.card.*;
  * 1 Pièce
  */
 public class Copper extends TreasureCard {
-	public Copper() { super("Copper", 0);	}
+	/**
+	 * Constructeur
+	 */
+	public Copper() { 
+		super("Copper", 0);	
+	}
 	
+	/**
+	 * @see dominion.card.TreasureCard#treasureValue()
+	 */
 	public int treasureValue() {
 		return 1;
 	}

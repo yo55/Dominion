@@ -1,5 +1,4 @@
 package dominion.card.common;
-import dominion.*;
 import dominion.card.*;
 
 /**
@@ -8,8 +7,17 @@ import dominion.card.*;
  * 3 Pièces
  */
 public class Gold extends TreasureCard {
-	public Gold() { super("Gold", 6);	}
 	
+	/**
+	 * Constructeur
+	 */
+	public Gold() {
+		super("Gold", 6);	
+	}
+	
+	/**
+	 * @see dominion.card.TreasureCard#treasureValue()
+	 */
 	public int treasureValue() {
 		return 3;
 	}

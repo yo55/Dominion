@@ -6,10 +6,16 @@ import dominion.*;
  * Les cartes Trésor
  */
 public abstract class TreasureCard extends Card {
-
+	
+	/**
+	 * Constructeur cartes trésor
+	 * @param name nom de la carte 
+	 * @param cost coût de la carte
+	 */
 	public TreasureCard(String name, int cost) {
 		super(name, cost);
 	}
+	
 	/**
 	 * Retourne la valeur d'une carte trésor
 	 * @return valeur de la carte
