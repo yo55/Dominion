@@ -28,11 +28,11 @@ public class Chancellor extends ActionCard {
 		p.incrementMoney(2);
 
 		// option de défausser le deck
-		List<String> options = Arrays.asList("o", "O", "n", "N");
+		List<String> options = Arrays.asList("Y", "y", "n", "N");
 
-		String choix = p.choose("CHANCELLOR : Défausser le deck ? (o/N) : ", options , true);
+		String choix = p.choose("CHANCELLOR : Défausser le deck ? (y/N) : ", options , true);
 		
-		if(choix.contains("O") || choix.contains("o")) {
+		if(choix.contains("Y") || choix.contains("y")) {
 			p.discardDeck();
 		}
 	}
