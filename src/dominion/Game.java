@@ -109,6 +109,14 @@ public class Game {
 		this.supplyStacks.add(estateCards);
 		this.supplyStacks.add(duchyCards);
 		this.supplyStacks.add(provinceCards);
+		
+		// ajout pile cartes Malédiction
+		CardList curseCards = new CardList();
+		int nbCurseCards = 10 *(nbPlayers - 1);
+		for(int i=0; i<nbCurseCards; i++) {
+			curseCards.add(new Curse());
+		}
+		this.supplyStacks.add(curseCards);
 
 
 	}
