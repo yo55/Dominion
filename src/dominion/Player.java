@@ -336,19 +336,22 @@ public class Player {
 	/**
 	 * Auteur : Yoann
 	 * 
-	 * Met une carte au rebus
+	 * Met une carte au rebus depuis la main
 	 * Est utilisé lors des actions "Ecartez"
-	 * La fonction ne vérifie pas que la carte appartienne à la main du joueur
-	 * 
-	 * Prérequis : la carte doit appartenir à la main du joueur
-	 *
+ 
 	 * @param carte nom de la carte à écarter
+	 * 
+	 * @return La carte écartée si elle existe et null sinon
 	 */
-	public void trashCard(String carte) {
-		if (carte != null && !carte.isEmpty()) {
-			Card carteEcarte = this.hand.remove(carte);
-			this.game.addToTrash(carteEcarte);
-		}
+	public Card trashCard(String carte) {
+			for(Card handCard : this.hand) {
+				if(handCard.getName().equals(carte)) {
+					this.hand.remove(handCard);
+					this.game.addToTrash(handCard);
+					return handCard;
+				}
+			}
+			return null;
 	}
 
 	/**
