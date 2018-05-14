@@ -255,6 +255,65 @@ public class Player {
 			this.hand.add(c);
 		}
 	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Ajoute une carte au dessus de la pioche du joueur
+	 * La fonction vérifie que la carte n'est pas null mais ne vérifie pas d'où elle vient.
+	 * @param c La carte à rajouter
+	 */
+	public void addToDeck(Card c) {
+		if(c!=null) {
+			this.draw.add(0,c);
+		}
+	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Déplace une carte de la main d'un joueur à son deck
+	 * @param cardName Le nom de la carte à rajouter
+	 * @return la carte déplacée si elle existe et null sinon
+	 */
+	public Card addToDeck(String cardName) {
+		for(Card carte : this.hand) {
+			if(carte.getName().equals(cardName)) {
+				addToDeck(carte);
+				this.hand.remove(carte);
+				return carte;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Ajoute une carte de la réserve au dessus de la pioche du joueur.
+	 * La fonction vérifie que la carte n'est pas null mais ne vérifie pas d'où elle vient.
+	 * @param cardName carte à rajouter
+	 * @return La carte si elle existait dans la réserve et null sinon
+	 */
+	public Card addToDeckFromSupply(String cardName) {
+		Card carte = this.game.getFromSupply(cardName);
+
+		if (carte != null) {
+			// La carte existe dans la réserve
+
+			// on la retire de la réserve
+			this.game.removeFromSupply(cardName);
+
+			// on l'ajoute au-dessus du deck (la pioche)
+			this.addToDeck(carte);
+
+			return carte;
+		}else {
+			// la carte n'existe pas en réserve
+			return null;
+		}
+	}
+	
 	/**
 	 * Auteur : Yoann
 	 * 

@@ -13,26 +13,38 @@ import dominion.card.*;
  */
 public class Bureaucrat extends AttackCard {
 
+	/**
+	 * Constructeur cartes bureaucrates
+	 */
 	public Bureaucrat() {
 		super("Bureaucrat",4);		
 	}
 
 	@Override
-	public void play(Player p) {	
+	/**
+	 * @see dominion.card.Card#play(dominion.Player)
+	 */
+	public void play(Player p) {
 		
-		List<Player> otherP=p.getGame().otherPlayers(p);
-		p.gain("Silver");
-		Player pother;
-		for(int i=0;i<otherP.size();i++){
-			pother=otherP.get(i);
-			if(pother.VictoryCard()){
-				pother.cardsInHand();
+		// gagne une carte argent
+		p.addToDeckFromSupply("Silver");
+
+		// Pour chaque adversaire
+		for(Player adv : p.getGame().otherPlayers(p)) {
+			// on créé la liste de ses cartes victoire en main
+			CardList advVictoryCards = new CardList();			
+			for(Card card : adv.cardsInHand()) {
+				if(card instanceof VictoryCard) {
+					advVictoryCards.add(card);
+				}
 			}
-			else{
-				pother
+			// on lui fait choisir laquelle il veut placer sur son deck
+			String choix = adv.chooseCard("BUREAUCRAT ("+p.getName()+"): Quelle carte Trésor voulez-vous révéler ? : ", advVictoryCards, false);
+			if(!choix.isEmpty()) {
+				// déplacement de la main vers le deck
+				adv.addToDeck(choix);
 			}
 		}
-		// TODO Auto-generated method stub
-		
+	
 	}
 }
