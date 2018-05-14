@@ -395,6 +395,12 @@ public class Player {
 		}
 		return victCards;
 	}
+	/**
+	 * Renvoie true si le joueur ne possède pas de cartes Victoires dans sa main
+	  */
+	public boolean VictoryCard(){
+		return this.getVictoryCards().isEmpty();
+	}
 
 	/**
 	 * Joue une carte de la main du joueur.
