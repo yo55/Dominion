@@ -12,15 +12,23 @@ import dominion.card.*;
  */
 public class Moat extends ReactionCard {
 	
+	/*
+	 * Constructeur cartes Douves
+	 */
 	public Moat(){
 		super("Moat",2);
-		}
+	}
 	
-	/**Supprime attack à créer **/
+	
 	@Override
+	/**
+	 * @see dominion.card.Card#play(dominion.Player)
+	 */
 	public void play(Player p) {
 		for(int i=0;i<2;i++){		
-		p.addToHand(p.drawCard());
+			p.addToHand(p.drawCard());
 		}	
 	}
+	
+	/** Rajouter la gestion de react **/
 }
