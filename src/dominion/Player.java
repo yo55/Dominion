@@ -291,7 +291,7 @@ public class Player {
 			this.game.addToTrash(carteEcarte);
 		}
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -310,7 +310,7 @@ public class Player {
 			}
 		}
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -322,6 +322,21 @@ public class Player {
 		this.discard.addAll(this.draw);
 		this.draw.clear();
 	}
+
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Retourne une copie des cartes en jeu
+	 * @return CardList contenant un exemplaire de toutes les cartes en jeu
+	 */
+	public CardList getInPlayCards() {
+		CardList inPlay = new CardList();
+		for(Card card : this.inPlay) {
+			inPlay.add(card);
+		}
+		return inPlay;	
+	}
+
 
 	/**
 	 * Renvoie une représentation de l'état du joueur sous forme d'une chaîne
