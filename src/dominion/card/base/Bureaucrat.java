@@ -31,15 +31,9 @@ public class Bureaucrat extends AttackCard {
 
 		// Pour chaque adversaire
 		for(Player adv : p.getGame().otherPlayers(p)) {
-			// on créé la liste de ses cartes victoire en main
-			CardList advVictoryCards = new CardList();			
-			for(Card card : adv.cardsInHand()) {
-				if(card instanceof VictoryCard) {
-					advVictoryCards.add(card);
-				}
-			}
-			// on lui fait choisir laquelle il veut placer sur son deck
-			String choix = adv.chooseCard("BUREAUCRAT ("+p.getName()+"): Quelle carte Trésor voulez-vous révéler ? : ", advVictoryCards, false);
+						
+			// on lui fait choisir quell carte Victoire il veut placer sur son deck
+			String choix = adv.chooseCard("BUREAUCRAT ("+p.getName()+"): Quelle carte Trésor voulez-vous révéler ? : ", adv.getVictoryCards(), false);
 			if(!choix.isEmpty()) {
 				// déplacement de la main vers le deck
 				adv.addToDeck(choix);
