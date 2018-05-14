@@ -12,7 +12,7 @@ import dominion.card.*;
  */
 public class Moat extends ReactionCard {
 	
-	/*
+	/**
 	 * Constructeur cartes Douves
 	 */
 	public Moat(){
@@ -30,5 +30,4 @@ public class Moat extends ReactionCard {
 		}	
 	}
 	
-	/** Rajouter la gestion de react **/
 }

@@ -10,7 +10,7 @@ import dominion.card.*;
  * Tous vos adversaires recoivent une carte Curse.
  */
 public class Witch extends AttackCard {
-	
+
 	/**
 	 * Constructeur cartes sorcières
 	 */
@@ -18,22 +18,25 @@ public class Witch extends AttackCard {
 		super("Witch", 5);
 	}
 
+
 	@Override
 	/**
-	 * @see dominion.card.Card#play(dominion.Player)
+	 * @see dominion.card.AttackCard#attack(dominion.Player, dominion.Player)
 	 */
-	public void play(Player p) {
-		
+	public void attack(Player attacker, Player adv) {
+		// l'adversaire prend une carte malédiction
+		adv.gain("Curse");
+	}
+
+	@Override
+	/**
+	 * @see dominion.card.AttackCard#selfGain(dominion.Player)
+	 */
+	public void selfGain(Player p) {
 		// + 2 cartes
 		for(int i=0; i<2; i++) {
 			p.addToHand(p.drawCard());
-		}
-		
-		// Chaque adversaire prend une carte malédiction
-		for(Player adv : p.otherPlayers()) {
-			adv.gain("Curse");
-		}
-	
+		}		
 	}
-	
+
 }

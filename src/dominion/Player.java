@@ -203,6 +203,21 @@ public class Player {
 	public List<Player> otherPlayers() {
 		return this.game.otherPlayers(this);
 	}
+	
+	/**
+	 * Auteur : Yoann
+	 * 
+	 * Teste si le joueur dispose de carte réaction
+	 * @return true si le joueur peut joueur une carte réaction et false sinon
+	 */
+	public boolean hasReactionCards() {
+		for(Card carte : this.hand) {
+			if(carte instanceof ReactionCard) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Pioche une carte dans la pioche du joueur.

@@ -21,31 +21,51 @@ public class Spy extends AttackCard {
 	 * @see dominion.card.Card#play(dominion.Player)
 	 */
 	public void play(Player p) {
+
+		// le joueur dévoile la première carte de son deck
+		Card carteDevoilee = p.drawCard();
+
+		String choix = p.choose("SPY ("+p.getName()+"): Voulez-vous défausser la carte "+carteDevoilee.getName()+ " ? (y/N):", Arrays.asList("y", "Y", "n", "N"), true);
+		if(choix.equals("y") || choix.equals("Y")) {
+			// on defausse
+			p.gain(carteDevoilee);
+		}else {
+			// on remet sur le deck
+			p.addToDeck(carteDevoilee);
+		}
 		
+		// attaque des adversaires
+		super.play(p);
+	}
+
+	@Override
+	/**
+	 * @see dominion.card.AttackCard#attack(dominion.Player, dominion.Player)
+	 */
+	public void attack(Player attacker, Player adv) {
+
+		// le joueur dévoile la première carte de son deck
+		Card carteDevoilee = adv.drawCard();
+
+		String choix = adv.choose("SPY ("+attacker.getName()+"): Voulez-vous défausser la carte "+carteDevoilee.getName()+ " ? (y/N):", Arrays.asList("y", "Y", "n", "N"), true);
+		if(choix.equals("y") || choix.equals("Y")) {
+			// on defausse
+			adv.gain(carteDevoilee);
+		}else {
+			// on remet sur le deck
+			adv.addToDeck(carteDevoilee);
+		}
+	}
+
+	@Override
+	/**
+	 * @see dominion.card.AttackCard#selfGain(dominion.Player)
+	 */
+	public void selfGain(Player p) {
 		// + 1 carte
 		p.addToHand(p.drawCard());
-		
+
 		// + 1 action
 		p.incrementActions(1);
-		
-		
-		List<Player> fullHouse = p.otherPlayers();
-		fullHouse.add(0,p);
-		
-		for(Player joueur : fullHouse) {
-			// le joueur dévoile la première carte de son deck
-			Card carteDevoilee = joueur.drawCard();
-			
-			String choix = joueur.choose("SPY ("+p.getName()+"): Voulez-vous défausser la carte "+carteDevoilee.getName()+ " ? (y/N):", Arrays.asList("y", "Y", "n", "N"), true);
-			if(choix.equals("y") || choix.equals("Y")) {
-				// on defausse
-				joueur.gain(carteDevoilee);
-			}else {
-				// on remet sur le deck
-				joueur.addToDeck(carteDevoilee);
-			}
-
-			
-		}
 	}
 }

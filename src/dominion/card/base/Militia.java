@@ -18,26 +18,25 @@ public class Militia extends AttackCard {
 	public Militia() {
 		super("Militia", 4);
 	}
+
 	@Override
 	/**
-	 * @see dominion.card.Card#play(dominion.Player)
+	 * @see dominion.card.AttackCard#attack(dominion.Player)
 	 */
-	public void play(Player p) {
-
+	public void attack(Player attacker, Player adv) {
+		while(adv.cardsInHand().size() > 3) {
+			String carte = adv.chooseCard("MILITIA (Attack): Choisir une carte à défausser : ", adv.cardsInHand(), false);
+			adv.discardCard(carte);
+		}		
+	}
+	
+	@Override
+	/**
+	 * @see dominion.card.AttackCard#selfGain(dominion.Player)
+	 */
+	public void selfGain(Player p) {
 		// + 2 pièces
-		p.incrementMoney(2);
-		
-		// Pour chaque adversaire
-		for(Player adv : p.getGame().otherPlayers(p)) {
-			
-			// tant qu'il a plus de trois cartes
-			while(adv.cardsInHand().size() > 3) {
-				String carte = adv.chooseCard("MILITIA (Attack): Choisir une carte à défausser : ", adv.cardsInHand(), false);
-				adv.discardCard(carte);
-			}
-			
-		}
-		
+		p.incrementMoney(2);		
 	}
 
 }
