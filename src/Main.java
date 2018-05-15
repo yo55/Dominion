@@ -16,19 +16,22 @@ class Main {
 
 		// Prépare les piles "royaume" de la réserve (hors cartes communes)
 		List<CardList> kingdomStacks = new ArrayList<CardList>();
-
+		
+		// cartes royaumes conseillées pour le premier jeu
 		List<Class<? extends ActionCard>> kingdomCards = Arrays.asList(
-				Village.class,
 				Cellar.class,
-				Chapel.class,
-				Chancellor.class, 
-				Woodcutter.class, 
-				Workshop.class,
-				Feast.class,
+				Market.class,
+				Militia.class,
+				Mine.class, 
+				Moat.class, 
+				Remodel.class,
 				Smithy.class,
-				Remodel.class
+				Village.class,
+				Woodcutter.class,
+				Workshop.class
 				);
 		
+		// instanciation de 10 exemplaires pour chaque pile de cartes royaumes
 		for(Class<? extends ActionCard> card : kingdomCards) {
 			CardList kingdomStack = new CardList();
 			for(int i = 0; i < 10; i++) {
