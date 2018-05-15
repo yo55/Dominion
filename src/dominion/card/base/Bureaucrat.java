@@ -20,25 +20,21 @@ public class Bureaucrat extends AttackCard {
 		super("Bureaucrat",4);		
 	}
 
+	
 	@Override
-	/**
-	 * @see dominion.card.Card#play(dominion.Player)
-	 */
-	public void play(Player p) {
-		
+	public void attack(Player attacker, Player adv) {
+		// on lui fait choisir quell carte Victoire il veut placer sur son deck
+		String choix = adv.chooseCard("BUREAUCRAT ("+attacker.getName()+"): Quelle carte Trésor voulez-vous révéler ? : ", adv.getVictoryCards(), false);
+		if(!choix.isEmpty()) {
+			// déplacement de la main vers le deck
+			adv.addToDeck(choix);
+		}
+	}
+
+	@Override
+	public void selfGain(Player p) {
 		// gagne une carte argent
 		p.addToDeckFromSupply("Silver");
 
-		// Pour chaque adversaire
-		for(Player adv : p.getGame().otherPlayers(p)) {
-						
-			// on lui fait choisir quell carte Victoire il veut placer sur son deck
-			String choix = adv.chooseCard("BUREAUCRAT ("+p.getName()+"): Quelle carte Trésor voulez-vous révéler ? : ", adv.getVictoryCards(), false);
-			if(!choix.isEmpty()) {
-				// déplacement de la main vers le deck
-				adv.addToDeck(choix);
-			}
-		}
-	
 	}
 }
