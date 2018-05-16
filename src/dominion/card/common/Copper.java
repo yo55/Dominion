@@ -8,7 +8,7 @@ import dominion.card.*;
  */
 public class Copper extends TreasureCard {
 	/**
-	 * Constructeur
+	 * Constructeur carte cuivre
 	 */
 	public Copper() { 
 		super("Copper", 0);	

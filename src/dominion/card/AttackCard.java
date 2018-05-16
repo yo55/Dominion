@@ -7,6 +7,11 @@ import dominion.*;
  * Rmq: les cartes Attaque sont toutes des cartes Action
  */
 public abstract class AttackCard extends ActionCard {
+	/** 
+	 * Constructeur cartes d'attaque
+	 * @param name nom de la carte
+	 * @param cost cout de la carte
+	 */
 
 	public AttackCard(String name, int cost) {
 		super(name, cost);
@@ -25,7 +30,7 @@ public abstract class AttackCard extends ActionCard {
 	/**
 	 * Auteur  : Yoann
 	 * 
-	 * Méthode qui execute les actions nécessaire sur le joueur
+	 * Méthode qui execute les actions nécessaires sur le joueur
 	 * qui porte l'attaque.
 	 * @param p le joueur attaquant
 	 */
@@ -41,6 +46,7 @@ public abstract class AttackCard extends ActionCard {
 		
 		// pour chaque adversaire
 		for(Player adv : p.otherPlayers()) {
+			//Si le joueur a dans sa main des cartes reactions
 			if(adv.hasReactionCards()) {
 				StringBuilder instr = new StringBuilder();
 				instr.append("Vous êtes attaqué par ");
@@ -48,7 +54,7 @@ public abstract class AttackCard extends ActionCard {
 				instr.append(". Voulez-vous révéler Moat (Y/n) ? ");
 				String choix = adv.choose(instr.toString(), Arrays.asList("y", "Y", "n", "N"), true );
 				if(choix.equals("n") || choix.equals("N")) {
-					// l'attaque est portée sur l'adversaire non protégé
+					//l'attaque est portée sur l'adversaire non protégé
 					attack(p, adv);
 				}
 			}else {

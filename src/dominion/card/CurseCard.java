@@ -1,5 +1,4 @@
 package dominion.card;
-import java.util.*;
 import dominion.*;
 
 /**
@@ -7,8 +6,10 @@ import dominion.*;
  */
 public abstract class CurseCard extends Card {
 
-	/**
+	/** 
 	 * Constructeur cartes malédiction
+	 * @param string nom de la carte
+	 * @param i cout de la carte
 	 */
 	public CurseCard(String string, int i) {
 		super(string, i);

@@ -8,6 +8,9 @@ import dominion.card.*;
  * Recevez une carte coûtant jusqu'à 4 Pièces.
  */
 public class Workshop extends ActionCard {
+	/**
+	 * Constructeur cartes Atelier
+	 */
 
 	public Workshop() {
 		super("Workshop", 3);

@@ -11,6 +11,9 @@ import dominion.card.*;
  * Tous les joueurs (vous aussi) dévoilent la première carte de leur deck. Vous décidez ensuite si chaque carte dévoilée est défaussée ou replacée sur son deck.
  */
 public class Spy extends AttackCard {
+	/**
+	 * Constructeur cartes Espion
+	 */
 
 	public Spy() {
 		super("Spy", 4);

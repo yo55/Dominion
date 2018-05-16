@@ -1,5 +1,4 @@
 package dominion.card.base;
-import java.util.*;
 import dominion.*;
 import dominion.card.*;
 
@@ -10,6 +9,10 @@ import dominion.card.*;
  * +1 Action.
  */
 public class Laboratory extends ActionCard {
+
+	/**
+	 * Constructeur cartes Laboratoire
+	 */
 
 	public Laboratory() {
 		super("Laboratory", 5);

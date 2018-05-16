@@ -10,7 +10,7 @@ import dominion.card.*;
 public class Duchy extends VictoryCard {
 	
 	/**
-	 * Constructeur
+	 * Constructeur duché
 	 */
 	public Duchy() { 
 		super("Duchy", 5);	

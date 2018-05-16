@@ -4,9 +4,10 @@ import java.util.*;
 /**
  * Liste de cartes
  */
+@SuppressWarnings("serial")
 public class CardList extends ArrayList<Card> {
 	
-	/**
+		/**
 	 * Constructeur vide
 	 */
 	public CardList() {

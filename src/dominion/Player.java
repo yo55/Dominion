@@ -203,7 +203,7 @@ public class Player {
 	public List<Player> otherPlayers() {
 		return this.game.otherPlayers(this);
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -229,7 +229,7 @@ public class Player {
 	 * 
 	 * @return la carte piochée, {@code null} si aucune carte disponible
 	 */
-	// TODO : index 0 est la première carte de la liste ?
+
 	public Card drawCard() {
 		if (this.draw.size() == 0) {
 			// La pioche est vide
@@ -270,7 +270,7 @@ public class Player {
 			this.hand.add(c);
 		}
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -283,7 +283,7 @@ public class Player {
 			this.draw.add(0,c);
 		}
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -301,7 +301,7 @@ public class Player {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -328,7 +328,7 @@ public class Player {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Auteur : Yoann
 	 * 
@@ -353,20 +353,20 @@ public class Player {
 	 * 
 	 * Met une carte au rebus depuis la main
 	 * Est utilisé lors des actions "Ecartez"
- 
+
 	 * @param carte nom de la carte à écarter
 	 * 
 	 * @return La carte écartée si elle existe et null sinon
 	 */
 	public Card trashCard(String carte) {
-			for(Card handCard : this.hand) {
-				if(handCard.getName().equals(carte)) {
-					this.hand.remove(handCard);
-					this.game.addToTrash(handCard);
-					return handCard;
-				}
+		for(Card handCard : this.hand) {
+			if(handCard.getName().equals(carte)) {
+				this.hand.remove(handCard);
+				this.game.addToTrash(handCard);
+				return handCard;
 			}
-			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -474,7 +474,7 @@ public class Player {
 	}
 	/**
 	 * Renvoie true si le joueur ne possède pas de cartes Victoires dans sa main
-	  */
+	 */
 	public boolean VictoryCard(){
 		return this.getVictoryCards().isEmpty();
 	}

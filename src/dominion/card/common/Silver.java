@@ -9,7 +9,7 @@ import dominion.card.*;
 public class Silver extends TreasureCard {
 	
 	/**
-	 * Constructeur
+	 * Constructeur carte Argent
 	 */
 	public Silver() { 
 		super("Silver", 3);	

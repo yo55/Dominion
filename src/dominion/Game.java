@@ -173,8 +173,6 @@ public class Game {
 		// joueur suivant p
 		int nextPlayer = (playerIndex == players.length-1)?0:playerIndex+1;
 
-		//System.out.println("\n player: " + playerIndex + " next: " + nextPlayer);
-
 		// tous les joueurs après p cycliquement
 		for(int i=0; i<players.length-1; i++) {
 			listOthers.add(players[(i + nextPlayer)%(players.length)]);

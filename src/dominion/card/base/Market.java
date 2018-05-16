@@ -1,5 +1,4 @@
 package dominion.card.base;
-import java.util.*;
 import dominion.*;
 import dominion.card.*;
 
@@ -14,7 +13,7 @@ import dominion.card.*;
 public class Market extends ActionCard {
 	
 	/**
-	 * Constructeur cartes Market
+	 * Constructeur cartes Marché
 	 */
 	public Market() {
 		super("Market", 5);
